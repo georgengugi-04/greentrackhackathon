@@ -1,0 +1,47 @@
+# Secrets — never commit real credentials.
+.env
+.env.*
+!.env.example
+serviceAccountKey.json
+**/serviceAccountKey*.json
+android/app/google-services.json
+ios/Runner/GoogleService-Info.plist
+macos/Runner/GoogleService-Info.plist
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+**/build/
+*.g.dart.bak
+
+# Platform build output
+android/.gradle/
+android/local.properties
+android/**/gradle-wrapper.jar
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/.symlinks/
+macos/Flutter/ephemeral/
+linux/flutter/ephemeral/
+windows/flutter/ephemeral/
+web/
+
+# Python weather_pipeline
+weather_pipeline/output/
+weather_pipeline/__pycache__/
+weather_pipeline/.pytest_cache/
+**/__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editors / OS
+.DS_Store
+.idea/
+*.iml

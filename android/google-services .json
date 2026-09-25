@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1070542599755",
+    "project_id": "greentrack-4bcab",
+    "storage_bucket": "greentrack-4bcab.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070542599755:android:2a3ad399f72d847bea7fce",
+        "android_client_info": {
+          "package_name": "com.greentrack.greentrack"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070542599755-67jbke844t9tug95j04pvesisig1nl9r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiGybFAV4lUozMmFSj3BCo1WDLyKuuoUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070542599755-67jbke844t9tug95j04pvesisig1nl9r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

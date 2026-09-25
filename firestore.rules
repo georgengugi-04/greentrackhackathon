@@ -1,0 +1,137 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isAdmin() {
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    function isSupplyChainRole(role) {
+      return role in ['aggregator', 'transporter', 'distributor'];
+    }
+
+    // Shared by both create and update on /users/{uid} — a naive rule
+    // that only checked `update` would leave a hole: the very FIRST write
+    // to a user's doc is a Firestore `create` (the doc doesn't exist yet),
+    // and an attacker could set role='distributor' + verificationStatus=
+    // 'approved' directly in that first write, skipping the invite-code
+    // check entirely. Applying this same validation to `create` too closes
+    // that gap.
+    function validVerificationWrite() {
+      return request.resource.data.verificationStatus == 'none' ||
+        request.resource.data.verificationStatus == 'pending' ||
+        isAdmin() ||
+        (
+          request.resource.data.verificationStatus == 'approved' &&
+          isSupplyChainRole(request.resource.data.role) &&
+          'verifiedByCode' in request.resource.data &&
+          get(/databases/$(database)/documents/role_invite_codes/$(request.resource.data.verifiedByCode)).data.used == true &&
+          get(/databases/$(database)/documents/role_invite_codes/$(request.resource.data.verifiedByCode)).data.usedByUid == request.auth.uid &&
+          get(/databases/$(database)/documents/role_invite_codes/$(request.resource.data.verifiedByCode)).data.role == request.resource.data.role
+        );
+    }
+
+    match /users/{uid} {
+      allow read: if request.auth != null;
+      allow create: if request.auth.uid == uid && validVerificationWrite();
+
+      // A user can freely update their own doc UNLESS the write touches
+      // verificationStatus — that field is the actual trust boundary
+      // (it's what the router checks before unlocking an Aggregator/
+      // Transporter/Distributor dashboard), so it can't just ride along
+      // with an ordinary self-service profile edit.
+      allow update: if request.auth.uid == uid && (
+        !request.resource.data.diff(resource.data).affectedKeys().hasAny(['verificationStatus']) ||
+        validVerificationWrite()
+      );
+    }
+
+    match /farmers/{uid} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.uid == uid;
+    }
+
+    match /batches/{batchId} {
+      // Anyone authenticated can read (for QR scanning)
+      allow read: if request.auth != null;
+      // Only the farmer who owns it can create or delete a batch
+      allow create: if request.auth.uid == request.resource.data.farmerId;
+      allow delete: if request.auth.uid == resource.data.farmerId;
+      // Updates: the owning farmer can edit anything (growth stage,
+      // harvest, etc). Any other authenticated user (Aggregator,
+      // Transporter, Distributor) may only be moving the batch through
+      // custody — restrict them to touching just the custody fields so a
+      // non-owner can't rewrite crop data.
+      allow update: if request.auth.uid == resource.data.farmerId
+        || request.resource.data.diff(resource.data).affectedKeys()
+             .hasOnly(['custodyStage', 'currentHolderId', 'currentHolderName']);
+
+      match /custody_events/{eventId} {
+        // Any authenticated supply-chain account can read/log a handoff;
+        // events are immutable once written.
+        allow read, create: if request.auth != null;
+        allow update, delete: if false;
+      }
+    }
+
+    // Pre-issued codes that instantly activate a supply-chain role. Only
+    // an admin can create/delete codes (that's the actual vetting step —
+    // it happens offline, then an admin generates the code). Any signed-in
+    // user can read one (needed to check/redeem it) and can flip exactly
+    // one code from unused to used-by-themselves — never re-use someone
+    // else's already-used code, never un-use one, never change its role.
+    match /role_invite_codes/{code} {
+      allow read: if request.auth != null;
+      allow create, delete: if isAdmin();
+      allow update: if request.auth != null &&
+        resource.data.used == false &&
+        request.resource.data.used == true &&
+        request.resource.data.usedByUid == request.auth.uid &&
+        request.resource.data.role == resource.data.role &&
+        request.resource.data.organizationLabel == resource.data.organizationLabel;
+    }
+
+    // Access requests for accounts without an invite code. A user can
+    // create/refresh only their OWN request, and only into 'pending'
+    // state — they can't approve themselves, and can't touch anyone
+    // else's request. Only an admin can flip one to approved/rejected.
+    match /role_requests/{uid} {
+      allow read: if request.auth != null && (request.auth.uid == uid || isAdmin());
+      allow create: if request.auth != null && request.auth.uid == uid &&
+        request.resource.data.status == 'pending';
+      allow update: if isAdmin() ||
+        (request.auth != null && request.auth.uid == uid &&
+         request.resource.data.status == 'pending');
+      allow delete: if false;
+    }
+
+    // Who's allowed into /admin/approvals. Deliberately not writable by
+    // any client — the first admin doc has to be created directly in the
+    // Firebase console (or by a trusted server-side script), which is the
+    // correct bootstrap for a privilege that can't be self-granted.
+    // Farm documentation — fertilizer/pesticide bottle photos, organic
+    // certs, etc. Same ownership shape as batches: anyone signed in can
+    // read (a buyer/inspector may need to verify a cert), only the
+    // farmer who logged it can create, edit, or remove it.
+    match /farm_documents/{docId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth.uid == request.resource.data.farmerId;
+      allow update, delete: if request.auth.uid == resource.data.farmerId;
+    }
+
+    // Chef-built meals — readable by anyone (consumers/diners need to see
+    // menu items and their nutrition/allergen info), writable only by the
+    // chef who owns them.
+    match /meals/{mealId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth.uid == request.resource.data.chefId;
+      allow update, delete: if request.auth.uid == resource.data.chefId;
+    }
+
+    match /admins/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}

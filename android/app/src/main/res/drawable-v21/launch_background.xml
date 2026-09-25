@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Modify this file to customize your launch splash screen -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@color/ic_launcher_background" />
+
+    <!-- Official GreenTrack logo, shown briefly while the native window
+         is created — the Flutter SplashScreen widget takes over immediately
+         after with the full branded/animated splash. -->
+    <item>
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/launch_image" />
+    </item>
+</layer-list>

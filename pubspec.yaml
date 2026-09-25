@@ -1,0 +1,70 @@
+name: greentrack
+description: GreenTrack - Farm-to-Table Supply Chain Traceability
+publish_to: 'none'
+version: 2.0.0+1
+
+environment:
+  sdk: '>=3.2.0 <4.0.0'
+  flutter: ">=3.32.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  # Firebase
+  firebase_core: ^4.11.0
+  firebase_auth: ^6.5.4
+  cloud_firestore: ^6.6.0
+  firebase_storage: ^13.4.3
+
+  # Auth (Google Sign-In)
+  google_sign_in: ^7.2.0
+
+  # State & Navigation
+  flutter_riverpod: ^3.3.2
+  go_router: ^17.3.0
+
+  # UI
+  google_fonts: ^8.1.0
+  flutter_animate: ^4.5.0
+  lottie: ^3.3.1
+  animations: ^2.0.11
+  animated_flip_counter: ^0.3.4
+  shimmer: ^3.0.0
+  video_player: ^2.9.5
+  flutter_slidable: ^3.1.1
+  qr_flutter: ^4.1.0
+  mobile_scanner: ^6.0.7
+  cached_network_image: ^3.3.1
+  image: ^4.3.0
+  shared_preferences: ^2.3.2
+
+  # Utils
+  collection: ^1.18.0
+  uuid: ^4.3.3
+  intl: ^0.20.2
+  http: ^1.2.2
+  fl_chart: ^0.69.0
+  image_picker: ^1.0.7
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  generate: true
+  assets:
+    - assets/data/climate_demo.json
+    - assets/images/logo_full.png
+    - assets/images/logo_icon.png
+    - assets/images/roles/farmer.png
+    - assets/images/roles/shopper.png
+    - assets/images/roles/chef.png
+    - assets/images/roles/diner.png
+    - assets/rive/
+    - assets/lottie/
+    - assets/videos/

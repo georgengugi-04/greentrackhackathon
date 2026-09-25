@@ -1,0 +1,210 @@
+{
+  "source": "demo",
+  "label": "JKUAT Weather Dataset \u2014 Historical / Demo (30 days, Aug 14 \u2013 Sep 13 2026)",
+  "note": "Snapshot from a real JKUAT station export (2,939 readings over 30 days), bundled for offline demo use. Not live.",
+  "station": {
+    "station_id": "61",
+    "name": "Kenya Kiambu JKUAT IoT AWS",
+    "site": "JKUAT",
+    "latitude": -1.099736,
+    "longitude": 37.014528,
+    "elevation_m": 1523.0,
+    "attribution": "3d-fewsnet.icdp.ucar.edu",
+    "doi": "https://doi.org/10.5065/d6v1236q"
+  },
+  "data_quality": {
+    "total_rows": 2939,
+    "valid_rows": 2939,
+    "duplicate_timestamps": 0,
+    "invalid_value_rows": 0,
+    "gap_count": 1,
+    "largest_gap_minutes": 95.4,
+    "coverage_pct": 100.0,
+    "first_observation": "2026-08-14T00:00:12+00:00",
+    "last_observation": "2026-09-13T23:49:45+00:00",
+    "quality_score": 98,
+    "quality_label": "Excellent",
+    "issues": [
+      "1 timestamp gap(s) detected (largest: 95 min) \u2014 likely sensor/connectivity outages."
+    ]
+  },
+  "features": {
+    "observed_at": "2026-09-13T23:49:45+00:00",
+    "temp_current": 17.4,
+    "temp_avg_1h": 17.52,
+    "temp_avg_3h": 18.0,
+    "temp_avg_6h": 18.85,
+    "temp_avg_24h": 21.01,
+    "temp_max_24h": 27.7,
+    "temp_min_24h": 16.9,
+    "humidity_current": 79.9,
+    "humidity_avg_24h": 68.28,
+    "humidity_persistent_high_minutes_24h": 379,
+    "rainfall_mm_6h": 0.0,
+    "rainfall_mm_24h": 0.0,
+    "rainfall_mm_7d": 0.0,
+    "dry_period_hours": 330.0,
+    "wind_current": 0.0,
+    "wind_avg_24h": 0.45,
+    "wind_gust_max_24h": 3.9,
+    "wind_direction_deg": 179.0,
+    "heat_index_current": 17.4,
+    "wet_bulb_current": 15.1,
+    "wbgt_current": 13.1,
+    "rainfall_mode": "cumulative",
+    "rainfall_mode_verified": true
+  },
+  "crop_risks": {
+    "spinach": {
+      "overall": 27,
+      "disease": 55,
+      "heat": 0,
+      "water": 40,
+      "wind": 0,
+      "rain": 0,
+      "level": "Low",
+      "recommendation": "Recent conditions may increase fungal disease risk for spinach.",
+      "action": "Monitor spinach leaves for early signs of fungal disease and avoid unnecessary overhead irrigation.",
+      "reasons": [
+        "Humidity (68%) is approaching levels that favour fungal disease.",
+        "High humidity has persisted for over 6h in the last day, giving fungal spores time to develop.",
+        "Current temperature is within the range many fungal pathogens favour.",
+        "No rainfall recorded for over 14 day(s)."
+      ],
+      "spray_window": {
+        "status": "Suitable",
+        "reason": "Wind and rainfall conditions are currently favourable.",
+        "suggested_action": "Conditions are currently suitable for spraying."
+      },
+      "irrigation": {
+        "need": "MEDIUM",
+        "reason": "No rainfall recorded for 330h."
+      }
+    },
+    "cabbage": {
+      "overall": 27,
+      "disease": 55,
+      "heat": 0,
+      "water": 40,
+      "wind": 0,
+      "rain": 0,
+      "level": "Low",
+      "recommendation": "Recent conditions may increase fungal disease risk for cabbage.",
+      "action": "Monitor cabbage leaves for early signs of fungal disease and avoid unnecessary overhead irrigation.",
+      "reasons": [
+        "Humidity (68%) is approaching levels that favour fungal disease.",
+        "High humidity has persisted for over 6h in the last day, giving fungal spores time to develop.",
+        "Current temperature is within the range many fungal pathogens favour.",
+        "No rainfall recorded for over 14 day(s)."
+      ],
+      "spray_window": {
+        "status": "Suitable",
+        "reason": "Wind and rainfall conditions are currently favourable.",
+        "suggested_action": "Conditions are currently suitable for spraying."
+      },
+      "irrigation": {
+        "need": "MEDIUM",
+        "reason": "No rainfall recorded for 330h."
+      }
+    },
+    "tomato": {
+      "overall": 17,
+      "disease": 25,
+      "heat": 0,
+      "water": 40,
+      "wind": 0,
+      "rain": 0,
+      "level": "Low",
+      "recommendation": "Extended dry conditions may be increasing water stress for tomato.",
+      "action": "Consider irrigation, prioritising this plot in your watering schedule.",
+      "reasons": [
+        "High humidity has persisted for over 6h in the last day, giving fungal spores time to develop.",
+        "No rainfall recorded for over 14 day(s)."
+      ],
+      "spray_window": {
+        "status": "Suitable",
+        "reason": "Wind and rainfall conditions are currently favourable.",
+        "suggested_action": "Conditions are currently suitable for spraying."
+      },
+      "irrigation": {
+        "need": "MEDIUM",
+        "reason": "No rainfall recorded for 330h."
+      }
+    },
+    "coffee": {
+      "overall": 20,
+      "disease": 35,
+      "heat": 0,
+      "water": 40,
+      "wind": 0,
+      "rain": 0,
+      "level": "Low",
+      "recommendation": "Extended dry conditions may be increasing water stress for coffee.",
+      "action": "Consider irrigation, prioritising this plot in your watering schedule.",
+      "reasons": [
+        "High humidity has persisted for over 6h in the last day, giving fungal spores time to develop.",
+        "Current temperature is within the range many fungal pathogens favour.",
+        "No rainfall recorded for over 14 day(s)."
+      ],
+      "spray_window": {
+        "status": "Suitable",
+        "reason": "Wind and rainfall conditions are currently favourable.",
+        "suggested_action": "Conditions are currently suitable for spraying."
+      },
+      "irrigation": {
+        "need": "MEDIUM",
+        "reason": "No rainfall recorded for 330h."
+      }
+    },
+    "maize": {
+      "overall": 17,
+      "disease": 25,
+      "heat": 0,
+      "water": 40,
+      "wind": 0,
+      "rain": 0,
+      "level": "Low",
+      "recommendation": "Extended dry conditions may be increasing water stress for maize.",
+      "action": "Consider irrigation, prioritising this plot in your watering schedule.",
+      "reasons": [
+        "High humidity has persisted for over 6h in the last day, giving fungal spores time to develop.",
+        "No rainfall recorded for over 14 day(s)."
+      ],
+      "spray_window": {
+        "status": "Suitable",
+        "reason": "Wind and rainfall conditions are currently favourable.",
+        "suggested_action": "Conditions are currently suitable for spraying."
+      },
+      "irrigation": {
+        "need": "MEDIUM",
+        "reason": "No rainfall recorded for 330h."
+      }
+    },
+    "beans": {
+      "overall": 27,
+      "disease": 55,
+      "heat": 0,
+      "water": 40,
+      "wind": 0,
+      "rain": 0,
+      "level": "Low",
+      "recommendation": "Recent conditions may increase fungal disease risk for beans.",
+      "action": "Monitor beans leaves for early signs of fungal disease and avoid unnecessary overhead irrigation.",
+      "reasons": [
+        "Humidity (68%) is approaching levels that favour fungal disease.",
+        "High humidity has persisted for over 6h in the last day, giving fungal spores time to develop.",
+        "Current temperature is within the range many fungal pathogens favour.",
+        "No rainfall recorded for over 14 day(s)."
+      ],
+      "spray_window": {
+        "status": "Suitable",
+        "reason": "Wind and rainfall conditions are currently favourable.",
+        "suggested_action": "Conditions are currently suitable for spraying."
+      },
+      "irrigation": {
+        "need": "MEDIUM",
+        "reason": "No rainfall recorded for 330h."
+      }
+    }
+  }
+}

@@ -1,0 +1,5 @@
+Time,Health,Battery Voltage,Battery charge status,Cell signal strength,Rain Gauge 1,Rain Gauge 2,Rain Gauge 1 Total Today,Rain Gauge 2 Total Today,Rain Gauge 1 Total Prior,Rain Gauge 2 Total Prior,BMX Temperature 1,BMX Pressure 1,MCP Temperature 1,SHT Temperature,SHT Humidity,SI1145 Visible 1,SI1145 Infrared 1,SI1145 Ultraviolet 1,Wind Speed,Wind Direction,Wind Gust,Wind Gust Direction,Heat Index,Wet Bulb Temperature,Wet Bulb Globe Temperature
+2026-08-28T00:00:25Z,0,,3,100,0,0,0,0,0,0,12.2,852.1,12.5,12.6,86.7,261,253,0,0,159,0,0,12.4,11.2,8.1
+2026-08-28T00:01:25Z,0,,3,100,0,0,0,0,0,0,12.2,852,12.5,12.7,86.7,260,254,0,0,159,0,0,12.5,11.2,8.2
+2026-08-28T02:30:32Z,0,,3,100,0,0,0,0,0,0,14,852.8,14.2,14.6,87.4,260,254,0,0.1,159,0.4,0.4,14.4,13.1,10.2
+2026-08-28T02:37:54Z,0,,3,100,0,0,0,0,0,0,14.4,852.7,14.6,14.9,86.8,261,255,0,0.1,159,0.7,0.7,14.8,13.4,10.6

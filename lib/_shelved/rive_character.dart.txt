@@ -1,0 +1,102 @@
+import 'package:flutter/material.dart';
+import 'package:rive/rive.dart' as rive;
+
+/// Drop-in wrapper for a Rive character animation, built for the exact
+/// workflow described in the motion concept doc: idle → loading → success
+/// states driven by a Rive **state machine** (recommended over separate
+/// timeline animations, since a state machine lets [trigger]/[setBool]
+/// switch states instantly without reloading the file).
+///
+/// Point [asset] at a file in `assets/rive/` (e.g. `'assets/rive/chef.riv'`)
+/// and [stateMachine] at the state machine name you set up in the Rive
+/// editor. If the file isn't there yet — which is the case until you
+/// actually design one — this quietly falls back to [placeholder] instead
+/// of crashing the app, so it's safe to wire up before the art exists.
+class RiveCharacter extends StatefulWidget {
+  final String asset;
+  final String stateMachine;
+  final double size;
+  final Widget? placeholder;
+
+  const RiveCharacter({
+    required this.asset,
+    this.stateMachine = 'State Machine 1',
+    this.size = 160,
+    this.placeholder,
+    super.key,
+  });
+
+  @override
+  State<RiveCharacter> createState() => RiveCharacterState();
+}
+
+class RiveCharacterState extends State<RiveCharacter> {
+  rive.StateMachineController? _controller;
+  rive.Artboard? _artboard;
+  bool _failed = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final file = await rive.RiveFile.asset(widget.asset);
+      final artboard = file.mainArtboard;
+      final controller =
+          rive.StateMachineController.fromArtboard(artboard, widget.stateMachine);
+      if (controller != null) artboard.addController(controller);
+      if (!mounted) return;
+      setState(() {
+        _artboard = artboard;
+        _controller = controller;
+      });
+    } catch (e) {
+      // Asset missing, malformed, or state machine name doesn't match —
+      // fall back quietly rather than taking the whole screen down.
+      // ignore: avoid_print
+      print('RiveCharacter: could not load ${widget.asset} ($e)');
+      if (mounted) setState(() => _failed = true);
+    }
+  }
+
+  /// Fire a trigger input on the state machine (e.g. 'success') — use this
+  /// to switch the character from idle to a one-shot reaction, matching
+  /// the "recipe ready → chef points at the card" beat in the concept doc.
+  void fireTrigger(String name) {
+    final input = _controller?.findInput<bool>(name);
+    if (input is rive.SMITrigger) input.fire();
+  }
+
+  /// Set a boolean input on the state machine (e.g. 'isLoading') to hold
+  /// the character in a looping state like "stirring the pot" for as long
+  /// as a real async operation is in flight.
+  void setBool(String name, bool value) {
+    final input = _controller?.findInput<bool>(name);
+    if (input is rive.SMIBool) input.value = value;
+  }
+
+  @override
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_failed || _artboard == null) {
+      return SizedBox(
+        width: widget.size,
+        height: widget.size,
+        child: widget.placeholder ?? const SizedBox.shrink(),
+      );
+    }
+    return SizedBox(
+      width: widget.size,
+      height: widget.size,
+      child: rive.Rive(artboard: _artboard!, fit: BoxFit.contain),
+    );
+  }
+}
